@@ -5,5 +5,5 @@ const stream = new fs.ReadStream(filename);
 
 stream.on('readable', function(){
   const data = stream.read();
-  if(!!data) console.log(data.toString());
-})
+  if(data) console.log(data.toString());
+});
