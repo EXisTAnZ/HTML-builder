@@ -14,7 +14,9 @@ function copyDir() {
   fs.promises.readdir(fromFolder)
     .then((files) => {
       files.forEach(file => {
-        fs.promises.copyFile(path.join(fromFolder, file), path.join(toFolder, file));
+        fs.promises.copyFile(
+          path.join(fromFolder, file), 
+          path.join(toFolder, file));
       });
     });
 }
