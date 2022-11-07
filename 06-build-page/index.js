@@ -1,4 +1,3 @@
-const { throws } = require('assert');
 const fs = require('fs');
 const path = require('path');
 const assetsFolder = path.join(__dirname, 'assets');
@@ -11,38 +10,43 @@ const toBundle = path.join(toFolder, 'bundle.css');
 fs.promises.rm(toFolder, { recursive: true, force: true })
   .then(() => {
     fs.promises.mkdir(toFolder, { recursive: true })
-      .then(() => createHTML())
+      .then(() => copyDir(assetsFolder,toAssets))
       .then(() => createCSS())
-      .then(() => copyDir())
+      .then(() => createHTML())
       .catch(err => console.log(err));
   });
 
-
+// Create index.html
 const createHTML = () => {
-  throws.console.error('TODO need createHTML func');
+  console.log('TODO need createHTML func');
 };
 
 
 
 // Create style.css
 const createCSS = () => {
-  throws.console.error('TODO need createCSS func');
+  console.log('TODO need createCSS func');
 };
 
 // Copy directory
-const copyDir = () => {
-  fs.promises.rm(toAssets, { recursive: true, force: true })
+const copyDir = (fromDir, toDir) => {
+  fs.promises.rm(toDir, { recursive: true, force: true })
     .then(() => {
-      fs.promises.mkdir(toAssets, { recursive: true })
+      fs.promises.mkdir(toDir, { recursive: true })
         .then(() => {
-          fs.promises.readdir(assetsFolder)
-            .then((files) => {
-              files.forEach(file => {
+          fs.promises.readdir(fromDir, { withFileTypes: true }, (err, files) => {
+            console.log(files);
+            files.forEach((file) => {
+              if (file.isDirectory()) {
+                console.log(file);
+                copyDir(path.join(fromDir,file),path.join(toDir,file));
+              } else {
                 fs.promises.copyFile(
-                  path.join(assetsFolder, file),
-                  path.join(toAssets, file));
-              });
+                  path.join(fromDir, file),
+                  path.join(toDir, file));
+              }
             });
+          });
         });
     });
 };
