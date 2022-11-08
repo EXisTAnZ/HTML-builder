@@ -17,17 +17,17 @@ fs.promises.rm(toFolder, { recursive: true, force: true })
   });
 
 // Create index.html
-const createHTML = () => {
+async function createHTML() {
   console.log('first');
-  const template = fs.promises.readFile(path.join(__dirname, 'template.html'), 'utf-8');
+  const template = await fs.promises.readFile(path.join(__dirname, 'template.html'), 'utf-8');
   let indexHTML = template;
   const tags = template.match(/\{\{+[a-w]+}}/g);
   for (let tag of tags) {
-    let component = fs.promises.readFile(path.join(__dirname, 'components', `${tag.slice(2, -2)}.html`), 'utf-8');
+    let component = await fs.promises.readFile(path.join(__dirname, 'components', `${tag.slice(2, -2)}.html`), 'utf-8');
     indexHTML = indexHTML.replace(`${tag}`, `${component}`);
-    fs.promises.writeFile(path.join(toFolder, 'index.html'), indexHTML);
+    await fs.promises.writeFile(path.join(toFolder, 'index.html'), indexHTML);
   }
-};
+}
 
 
 
