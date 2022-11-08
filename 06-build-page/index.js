@@ -32,21 +32,27 @@ const createCSS = () => {
 const copyDir = (fromDir, toDir) => {
   fs.promises.rm(toDir, { recursive: true, force: true })
     .then(() => {
+      console.log('dir removed');
       fs.promises.mkdir(toDir, { recursive: true })
         .then(() => {
-          fs.promises.readdir(fromDir, { withFileTypes: true }, (err, files) => {
-            console.log(files);
-            files.forEach((file) => {
-              if (file.isDirectory()) {
-                console.log(file);
-                copyDir(path.join(fromDir,file),path.join(toDir,file));
-              } else {
-                fs.promises.copyFile(
-                  path.join(fromDir, file),
-                  path.join(toDir, file));
-              }
+          console.log('maked dir');
+          fs.promises.readdir(fromDir,{withFileTypes:true})
+            .then((files) => {
+              console.log(files);
+              files.forEach((file) => {
+                if (file.isDirectory()) {
+                  console.log(`${file.name} is directory`);
+                  copyDir(
+                    path.join(fromDir, file.name),
+                    path.join(toDir, file.name)
+                  );
+                } else {
+                  fs.promises.copyFile(
+                    path.join(fromDir, file.name),
+                    path.join(toDir, file.name));
+                }
+              });
             });
-          });
         });
     });
 };
