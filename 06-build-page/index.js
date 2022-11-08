@@ -25,7 +25,15 @@ const createHTML = () => {
 
 // Create style.css
 const createCSS = () => {
-  console.log('TODO need createCSS func');
+  fs.readdir(stylesFolder, { withFileTypes: true }, (err, files) => {
+    files.forEach(file => {
+      if (file.isFile() && path.extname(file.name) === '.css') {
+        fs.readFile(path.join(stylesFolder, file.name), 'utf-8', (err, data) => {
+          fs.appendFile(toBundle, data, ()=>{});
+        });
+      }
+    });
+  });
 };
 
 // Copy directory
