@@ -4,7 +4,7 @@ const assetsFolder = path.join(__dirname, 'assets');
 const stylesFolder = path.join(__dirname, 'styles');
 const toFolder = path.join(__dirname, 'project-dist');
 const toAssets = path.join(toFolder,'assets');
-const toBundle = path.join(toFolder, 'bundle.css');
+const toBundle = path.join(toFolder, 'style.css');
 
 
 fs.promises.rm(toFolder, { recursive: true, force: true })
