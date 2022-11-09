@@ -18,7 +18,6 @@ fs.promises.rm(toFolder, { recursive: true, force: true })
 
 // Create index.html
 async function createHTML() {
-  console.log('first');
   const template = await fs.promises.readFile(path.join(__dirname, 'template.html'), 'utf-8');
   let indexHTML = template;
   const tags = template.match(/\{\{+[a-w]+}}/g);
