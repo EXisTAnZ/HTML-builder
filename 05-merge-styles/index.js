@@ -3,6 +3,9 @@ const path = require('path');
 const fromFolder = path.join(__dirname, 'styles');
 const toBundle = path.join(__dirname, 'project-dist', 'bundle.css');
 
+fs.rm(toBundle, {force: true, recursive: true}, error => {
+  if (error) throw error;
+});
 
 fs.readdir(fromFolder, { withFileTypes: true }, (err, files) => {
   files.forEach(file => {
